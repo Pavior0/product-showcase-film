@@ -62,6 +62,7 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
     "--psf-caption-muted-weight": String(theme.type.captionMuted.weight),
     "--psf-mono-size": `${theme.type.mono.sizePx}px`,
     "--psf-mono-weight": String(theme.type.mono.weight),
+    "--psf-mono-lh": String(theme.type.mono.lineHeight),
     "--psf-meta-size": `${theme.type.meta.sizePx}px`,
     "--psf-card-radius": `${theme.card.radiusPx}px`,
     "--psf-card-border-w": `${theme.card.borderWidthPx}px`,
@@ -71,7 +72,22 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
     "--psf-grain-opacity": String(theme.texture.grainOpacity),
     "--psf-scanline-opacity": String(theme.texture.scanlineOpacity),
     "--psf-vignette": String(theme.texture.vignette),
+    "--psf-grain-url": `url("${grainDataUrl(theme)}")`,
+    ...(p.plate ? { "--psf-plate": p.plate } : {}),
   };
+}
+
+/**
+ * Seeded feTurbulence tile for this theme (seed/freq/octaves from theme.texture).
+ * base.css used to hardcode seed 7 / freq 0.8 / 4 octaves for every theme.
+ */
+export function grainDataUrl(theme: Theme, tilePx = 240): string {
+  const { grainFreq, grainOctaves, grainSeed } = theme.texture;
+  const svg =
+    `<svg xmlns='http://www.w3.org/2000/svg' width='${tilePx}' height='${tilePx}'>` +
+    `<filter id='g'><feTurbulence type='fractalNoise' baseFrequency='${grainFreq}' numOctaves='${grainOctaves}' stitchTiles='stitch' seed='${grainSeed}'/></filter>` +
+    `<rect width='100%' height='100%' filter='url(#g)'/></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg).replace(/'/g, "%27")}`;
 }
 
 function luminance(hex: string): number {

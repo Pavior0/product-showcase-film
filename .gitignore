@@ -1,3 +1,14 @@
 node_modules/
 out/
+dist/
 *.mp4
+*.mov
+*.webm
+.DS_Store
+*.log
+.env
+.env.*
+.vite/
+playwright-report/
+test-results/
+*.t.mjs

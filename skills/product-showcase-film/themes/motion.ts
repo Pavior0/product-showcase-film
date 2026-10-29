@@ -216,32 +216,33 @@ export function applyCardStack(el: HTMLElement, s: CardStackState): void {
 }
 
 /**
- * GSAP-friendly: returns vars you can hand to gsap.fromTo / timeline.
- * Still deterministic if the timeline uses a fixed totalTime = t.
+ * GSAP ease from a theme bezier tuple. GSAP does NOT parse CSS "cubic-bezier(...)"
+ * strings — it silently falls back to power1.out (dogfood finding). Pass this instead,
+ * e.g. tl.to(obj, { x: 1, duration: 2, ease: gsapEase(theme.easings.enter.bezier) }).
+ */
+export function gsapEase(
+  bezier: [number, number, number, number],
+): (u: number) => number {
+  return (u: number) => easeBezier(bezier, u);
+}
+
+type Bezier = [number, number, number, number];
+
+/**
+ * GSAP-friendly fromTo vars. Deterministic under a paused timeline driven by seek(t).
+ * Duration is required: `duration: undefined` makes GSAP build a 0s tween (instant jump).
  */
 export const gsapVars = {
-  riseFade: (yPx: number, bezierCss: string) => ({
+  riseFade: (yPx: number, bezier: Bezier, durationSec: number) => ({
     from: { autoAlpha: 0, y: yPx },
-    to: { autoAlpha: 1, y: 0, ease: bezierCss, duration: undefined as number | undefined },
+    to: { autoAlpha: 1, y: 0, ease: gsapEase(bezier), duration: durationSec },
   }),
-  slideBlur: (xPx: number, blurPx: number, bezierCss: string) => ({
+  slideBlur: (xPx: number, blurPx: number, bezier: Bezier, durationSec: number) => ({
     from: { autoAlpha: 0, x: xPx, filter: `blur(${blurPx}px)` },
-    to: {
-      autoAlpha: 1,
-      x: 0,
-      filter: "blur(0px)",
-      ease: bezierCss,
-      duration: undefined as number | undefined,
-    },
+    to: { autoAlpha: 1, x: 0, filter: "blur(0px)", ease: gsapEase(bezier), duration: durationSec },
   }),
-  cardStackIn: (yPx: number, scaleFrom: number, bezierCss: string) => ({
+  cardStackIn: (yPx: number, scaleFrom: number, bezier: Bezier, durationSec: number) => ({
     from: { autoAlpha: 0, y: yPx, scale: scaleFrom },
-    to: {
-      autoAlpha: 1,
-      y: 0,
-      scale: 1,
-      ease: bezierCss,
-      duration: undefined as number | undefined,
-    },
+    to: { autoAlpha: 1, y: 0, scale: 1, ease: gsapEase(bezier), duration: durationSec },
   }),
 };

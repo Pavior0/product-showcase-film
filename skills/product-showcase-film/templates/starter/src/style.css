@@ -1,0 +1,69 @@
+html, body { margin: 0; background: #000; }
+#app { position: fixed; left: 0; top: 0; }
+.psf-stage { transform-origin: 0 0; }
+.scene { position: absolute; inset: 0; }
+
+/* preview bar (hidden in ?render) */
+.pv-bar { position: fixed; left: 0; right: 0; bottom: 0; height: 56px; display: flex; gap: 12px; align-items: center;
+  padding: 0 16px; background: #111; color: #bbb; font: 13px/1 "JetBrains Mono", monospace; z-index: 99; }
+.pv-bar input { flex: 1; }
+.pv-bar button { font: inherit; background: #222; color: #eee; border: 1px solid #333; border-radius: 6px; padding: 6px 12px; }
+.is-render .pv-bar { display: none; }
+
+/* ---------- macro: plate + camera ---------- */
+.oc-plate { position: absolute; inset: 0; width: 100%; height: 100%; }
+.oc-cam { position: absolute; inset: 0;
+  /* vignette as a MASK (an overlay muddies the yellow plate) */
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, #000 48%, rgba(0,0,0,var(--vig)) 100%);
+          mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, #000 48%, rgba(0,0,0,var(--vig)) 100%); }
+.oc-layer { position: absolute; inset: 0; perspective: 1800px; perspective-origin: 50% 50%; overflow: hidden; }
+.oc-layer.is-sharp {
+  -webkit-mask-image: radial-gradient(ellipse 30% 26% at var(--fx, 50%) var(--fy, 50%), #000 30%, transparent 100%);
+          mask-image: radial-gradient(ellipse 30% 26% at var(--fx, 50%) var(--fy, 50%), #000 30%, transparent 100%); }
+.oc-rig { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+
+/* ---------- opencode window (2x units) ---------- */
+.oc-win { position: relative; width: 3200px; height: 2000px; border-radius: 30px; background: #0b0b0c;
+  border: 1.5px solid #1d1d1f; overflow: hidden; font-family: var(--psf-font-body); color: #f2f2f4; }
+.oc-bar { position: absolute; left: 0; right: 0; top: 0; height: 112px; background: #101011; border-bottom: 1.5px solid #19191b; }
+.oc-lights { position: absolute; left: 44px; top: 43px; display: flex; gap: 18px; }
+.oc-lights i { width: 26px; height: 26px; border-radius: 50%; display: block; }
+.oc-lights .r { background: #ff6159; box-shadow: 0 0 12px #ff615999; } .oc-lights .y { background: #ffbd2e; box-shadow: 0 0 12px #ffbd2e99; } .oc-lights .g { background: #2ac940; box-shadow: 0 0 12px #2ac94099; }
+.oc-grid { position: absolute; left: 192px; top: 41px; color: #8d8d92; }
+.oc-tabs { position: absolute; left: 262px; top: 26px; height: 60px; right: 0; }
+.oc-tab { position: absolute; top: 0; height: 60px; display: flex; align-items: center; gap: 14px; padding: 0 20px 0 13px;
+  border-radius: 15px; font: 500 27px/1 var(--psf-font-body); letter-spacing: -0.005em; color: #8e8e93; white-space: nowrap; }
+.oc-tab.is-sel { background: var(--psf-border); color: #f6f6f7; }
+.oc-tab .oc-x { color: #9a9a9f; font-size: 30px; font-weight: 400; margin-left: 6px; opacity: 0; }
+.oc-tab.is-sel .oc-x { opacity: 1; }
+.oc-tab.is-editing { box-shadow: inset 0 0 0 2px #56565a; }
+.oc-z { width: 34px; height: 34px; border-radius: 9px; background: var(--psf-accent); color: #fff; display: grid; place-items: center;
+  font: 700 20px/1 var(--psf-font-body); }
+.oc-edit { color: #c9c9cd; display: grid; place-items: center; }
+.oc-caret { width: 3px; height: 34px; background: #f6f6f7; margin-left: -12px; }
+.oc-plus { position: absolute; top: 0; height: 60px; width: 60px; display: grid; place-items: center; color: #8e8e93;
+  font: 300 40px/1 var(--psf-font-body); }
+.oc-main { position: absolute; left: 262px; top: 112px; right: 0; bottom: 0; }
+.oc-head { position: absolute; left: 0; top: 56px; display: flex; gap: 22px; align-items: baseline; }
+.oc-head-title { font: 600 30px/1 var(--psf-font-body); color: #f2f2f4; }
+.oc-head-meta { font: 400 22px/1 var(--psf-font-mono); color: #6e6e73; }
+.oc-prompt { position: absolute; left: 0; height: 64px; display: flex; align-items: center; gap: 0;
+  font: 400 30px/1 var(--psf-font-mono); color: #f2f2f4; white-space: pre; margin-top: -112px; }
+.oc-chev { color: var(--psf-accent); width: 40px; }
+.oc-chev.is-sent { color: #6e6e73; }
+.oc-bcaret { width: 17px; height: 36px; background: #f2f2f4; margin-left: 2px; }
+.oc-line { position: absolute; left: 0; height: 64px; display: flex; align-items: center; margin-top: -112px;
+  font: 400 28px/1 var(--psf-font-mono); white-space: pre; color: #e8e8ea; }
+.oc-gutter { color: #2c2c2f; width: 40px; }
+.oc-verb { color: var(--psf-accent); width: 104px; }
+.oc-line-meta { color: #77777c; margin-left: 28px; }
+.oc-line.is-pass .oc-verb { width: 44px; }
+.oc-line.is-pass .oc-line-text { color: #f6f6f7; }
+
+/* ---------- end cards ---------- */
+.card { display: grid; place-items: center; background: var(--psf-bg); }
+.card .psf-caption { white-space: pre; }
+.card .lead { color: var(--psf-text); }
+.oc-wordmark { margin: 0; font: 800 182px/1 var(--psf-font-caption); letter-spacing: -0.02em; }
+.oc-wordmark .a { color: #b0a8a8; }
+.oc-wordmark .b { color: #f8f8f8; }

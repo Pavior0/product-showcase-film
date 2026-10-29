@@ -5,6 +5,10 @@ description: >-
   (not After Effects, not a screen recording). Also when the user says product
   film, code-driven demo video, Emil-style Polar film, OpenCode/Linear-style
   launch film, or HTML/DOM timeline → Playwright → ffmpeg.
+license: MIT
+metadata:
+  author: Pavior0
+  version: "0.1.0"
 ---
 # Product showcase film (code-driven)
 
@@ -32,6 +36,7 @@ Files in this skill's directory:
 - `themes/base.css`: tokens as CSS variables; seeded deterministic grain.
 - `themes/motion.ts`: transitions as pure functions of `t` (slideBlur, riseFade, cardStackIn, typeOn, countUp, caretBlink), usable inside GSAP/Motion timelines.
 - `preview-pages/<id>.html`, `scripts/screenshot.mjs` (`node scripts/screenshot.mjs <id> ...`), `previews/<id>.png`: reference look per preset.
+- `templates/starter/`: copy-ready Vite + TS film project (storyboard, DOM scenes, GSAP clock, Playwright → ffmpeg). Scaffold with `cp -r <skill>/templates/starter my-film`.
 
 Rules:
 - Swap only the **accent** hex to the brand's real accent and the font if the brand has one. Keep every other token.
@@ -73,7 +78,7 @@ Determinism rule: **frame N depends only on time `t = N / fps`**, never on “pr
 - Don’t screen-record or generate the film with a video model.
 - Don’t add whoosh SFX or motion that doesn't read as a real user action.
 - Don’t bury timings in magic numbers across files; keep them in the storyboard.
-- Don’t ship agent meta (“here’s what I built”) on screen; only end-user product language ([no-ui-slop](sand-workflow:no-ui-slop)).
+- Don’t ship agent meta (“here’s what I built”) on screen; only end-user product language.
 - Don’t copy or redistribute Emil’s paid Polar skill package.
 
 ## Open engines (pick one)
@@ -91,7 +96,7 @@ The preset files are engine-agnostic: import tokens/CSS into whichever engine yo
 
 1. One-sentence brief: audience, length (~15–90s), aspect (16:9 / 9:16), one story beat.
 2. Pick the preset; set the accent to the brand's real color.
-3. Scaffold storyboard + empty scenes; first silent pass.
+3. Copy `templates/starter` (or scaffold storyboard + empty scenes); set the theme id; first silent pass.
 4. Screenshot each scene vs `previews/<id>.png`; design-crit pass, then write the notes down as standing rules.
 5. Add sound cues + music hit; loudness check; human listen.
 6. Export master + web + poster.

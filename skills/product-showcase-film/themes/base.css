@@ -54,7 +54,7 @@
   font-size: var(--psf-mono-size);
   font-weight: var(--psf-mono-weight, 400);
   letter-spacing: 0;
-  line-height: 1.35;
+  line-height: var(--psf-mono-lh, 1.35);
   color: var(--psf-text);
 }
 
@@ -102,7 +102,8 @@
   z-index: 50;
   opacity: var(--psf-grain-opacity, 0);
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch' seed='7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  /* themeToCssVars() sets --psf-grain-url from theme.texture (seed/freq/octaves); fallback = old fixed tile */
+  background-image: var(--psf-grain-url, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch' seed='7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"));
   background-size: 240px 240px;
 }
 

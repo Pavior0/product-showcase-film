@@ -17,7 +17,7 @@ export const opencode: Theme = {
   palette: {
     bg: "#000000", // end cards, measured exact
     surface: "#0f0f0f", // app chrome in the macro shots (measured #0a090a–#0f0f0f)
-    surfaceAlt: "#fdff24", // halftone opener plate ONLY (measured #fdff24, Tabs 0–1.4s)
+    plate: "#fdff24", // halftone opener plate ONLY (measured #fdff24, Tabs 0–1.4s). Was surfaceAlt — that made .psf-card yellow.
     border: "#3d3d3e", // selected-tab fill / hairline (measured #3d3d3e)
     text: "#ffffff", // key word + URL on end cards (measured #ffffff)
     muted: "#bab5b6", // warm gray rest-of-line + tagline (measured #bab5b6 / #b9b5b6)
@@ -29,7 +29,7 @@ export const opencode: Theme = {
     caption: {
       family: '"JetBrains Mono", "Berkeley Mono", ui-monospace, monospace',
       googleFonts: "JetBrains+Mono:wght@400;500",
-      sizePx: 64,
+      sizePx: 71, // dogfood: 64 read small next to the ref; url line 851px/20ch → 71px
       weight: 500,
       trackingEm: 0,
       lineHeight: 1.2,
@@ -37,7 +37,7 @@ export const opencode: Theme = {
     captionMuted: {
       family: '"JetBrains Mono", "Berkeley Mono", ui-monospace, monospace',
       googleFonts: "JetBrains+Mono:wght@400",
-      sizePx: 64,
+      sizePx: 71,
       weight: 400,
       trackingEm: 0,
       lineHeight: 1.2,

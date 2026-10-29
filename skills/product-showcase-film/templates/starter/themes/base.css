@@ -1,0 +1,140 @@
+/* Product-showcase-film theme stage.
+   Set data-theme="<id>" on :root / .psf-stage and define vars from the preset.
+   Grain is SVG feTurbulence with a FIXED seed — never Math.random at render. */
+
+.psf-stage {
+  position: relative;
+  overflow: hidden;
+  width: var(--psf-w, 1920px);
+  height: var(--psf-h, 1080px);
+  background: var(--psf-bg);
+  color: var(--psf-text);
+  font-family: var(--psf-font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.psf-stage * {
+  box-sizing: border-box;
+}
+
+.psf-stage .psf-caption {
+  font-family: var(--psf-font-caption);
+  font-size: var(--psf-caption-size);
+  font-weight: var(--psf-caption-weight);
+  letter-spacing: var(--psf-caption-tracking);
+  line-height: var(--psf-caption-lh);
+  color: var(--psf-text);
+  margin: 0;
+}
+
+.psf-stage .psf-caption-muted {
+  color: var(--psf-muted);
+  font-weight: var(--psf-caption-muted-weight, 500);
+}
+
+.psf-stage .psf-card {
+  background: var(--psf-surface-alt, var(--psf-surface));
+  color: var(--psf-card-text, var(--psf-bg));
+  border: var(--psf-card-border-w) solid var(--psf-card-border-c, transparent);
+  border-radius: var(--psf-card-radius);
+  box-shadow: var(--psf-card-shadow);
+  padding: var(--psf-card-pad);
+  max-width: var(--psf-card-max-w);
+}
+
+.psf-stage .psf-card--dark {
+  background: var(--psf-surface);
+  color: var(--psf-text);
+  border-color: var(--psf-border);
+}
+
+.psf-stage .psf-mono {
+  font-family: var(--psf-font-mono);
+  font-size: var(--psf-mono-size);
+  font-weight: var(--psf-mono-weight, 400);
+  letter-spacing: 0;
+  line-height: var(--psf-mono-lh, 1.35);
+  color: var(--psf-text);
+}
+
+.psf-stage .psf-mono.is-accent {
+  color: var(--psf-accent);
+}
+
+.psf-stage .psf-mono.is-muted {
+  color: var(--psf-muted);
+}
+
+.psf-stage .psf-meta {
+  font-family: var(--psf-font-meta, var(--psf-font-mono));
+  font-size: var(--psf-meta-size, 12px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--psf-muted);
+}
+
+.psf-stage .psf-accent {
+  color: var(--psf-accent);
+}
+
+.psf-stage .psf-events {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.psf-stage .psf-events .evt {
+  position: absolute;
+  font-family: var(--psf-font-mono);
+  font-size: var(--psf-mono-size);
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
+/* Deterministic film grain + optional scanlines + vignette */
+.psf-stage .psf-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: var(--psf-grain-opacity, 0);
+  mix-blend-mode: overlay;
+  /* themeToCssVars() sets --psf-grain-url from theme.texture (seed/freq/octaves); fallback = old fixed tile */
+  background-image: var(--psf-grain-url, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch' seed='7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"));
+  background-size: 240px 240px;
+}
+
+.psf-stage .psf-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 51;
+  opacity: var(--psf-scanline-opacity, 0);
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.35) 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+.psf-stage .psf-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 52;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(0, 0, 0, var(--psf-vignette, 0)) 100%
+  );
+}
+
+/* Per-theme grain seed via custom filter ids when inlining SVG */
+.psf-stage .psf-grain[data-seed] {
+  /* override background in preview HTML with matching seed URL */
+}

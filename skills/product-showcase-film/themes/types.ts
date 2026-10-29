@@ -23,6 +23,12 @@ export type Palette = {
   accent: Hex;
   /** Accent usable on light surfaces (same hue family, may equal accent) */
   accentOnLight?: Hex;
+  /**
+   * Optional full-bleed opener/transition plate (e.g. opencode's yellow halftone).
+   * Never a card fill, text color or second accent. Kept out of surfaceAlt on purpose:
+   * base.css paints .psf-card with surfaceAlt, so a plate there turns every card yellow.
+   */
+  plate?: Hex;
 };
 
 export type TypeRole = {

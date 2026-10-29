@@ -1,0 +1,26 @@
+{
+  "name": "psf-starter",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "cues": "node scripts/cues.mjs",
+    "render": "node scripts/render.mjs",
+    "render:1080": "node scripts/render.mjs --fps 60 --scale 1 --out out/film-1080p.mp4",
+    "render:4k": "node scripts/render.mjs --fps 60 --scale 2 --out out/film-4k.mp4",
+    "check:determinism": "node scripts/determinism.mjs --from 3 --dur 2",
+    "fonts": "node scripts/fetch-fonts.mjs",
+    "sync-themes": "rm -rf themes && cp -r ../themes ./themes"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.5"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0"
+  }
+}

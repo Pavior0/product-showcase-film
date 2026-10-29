@@ -395,7 +395,7 @@ No 16:9; respect safe margins; max 1 card + 1 caption; no typeOn; coral only; bo
 | --- | --- | --- |
 | bg | `#000000` | end cards (exact) |
 | surface | `#0f0f0f` | app chrome in macro shots (`#0a090a`–`#0f0f0f`) |
-| surfaceAlt | `#fdff24` | halftone opener plate only |
+| plate | `#fdff24` | halftone opener plate only (`palette.plate`; **not** `surfaceAlt` — every `.psf-card` paints surfaceAlt, so yellow there turned all cards yellow) |
 | border | `#3d3d3e` | selected-tab fill |
 | text | `#ffffff` | key word, URL |
 | muted | `#bab5b6` | rest of the line, tagline (warm gray) |
@@ -407,8 +407,8 @@ Wordmark tones: `#f8f8f8` / `#b0a8a8` / counters `#484040`. Use the real logo as
 
 | Role | Family | Size | Weight | Notes |
 | --- | --- | --- | --- | --- |
-| caption | JetBrains Mono (stand-in for Berkeley Mono) | 64px | 500 | The real end-card line is about 71px: the tagline is 1195px wide. Lowercase. |
-| captionMuted | JetBrains Mono | 64px | 400 | Same line in `muted` |
+| caption | JetBrains Mono (stand-in for Berkeley Mono) | 71px | 500 | Measured: the tagline is 1195px wide over 28 glyphs at 1080p (42.7px advance ÷ 0.6em → 71px). Lowercase. |
+| captionMuted | JetBrains Mono | 71px | 400 | Same line in `muted` |
 | cardTitle | Inter (SF stand-in) | 30px | 500 | tab titles |
 | cardBody | Inter | 20px | 400 | |
 | mono | JetBrains Mono | 20px | 400 | session transcript |
@@ -433,6 +433,14 @@ Wordmark tones: `#f8f8f8` / `#b0a8a8` / counters `#484040`. Use the real logo as
 - grain `0.03`, freq `0.9`, seed `11`, vignette `0.45` (depth-of-field falloff), no scanlines.
 - card radius `14`, border `1`, no shadow.
 - camera driftAmp `0.02` over an 18s period, zoom `[1.0, 1.3]`. The push-in range is eyeballed, not measured.
+
+### How the look is built (dogfooded in `starter/`)
+
+- **Scale:** the macro is *extreme*. Build the window at 2× units (traffic lights 26px, tab text 27px, prompt mono 30px) and frame it at zoom 2–3 so one chip/line fills ~⅓ of the width. Zoom ≤1.3 reads as a screenshot, not a macro.
+- **Fake DOF:** two clones of the UI under the same 3D transform (`rotateX 16° rotateZ −11°`, perspective 1800px). Back clone `filter: blur(15px)`; front clone sharp, masked by `radial-gradient(ellipse 30% 26% at var(--fx) var(--fy), #000 30%, transparent)`. Move the focus point with the framing, never leave it at screen centre.
+- **Camera:** per-shot `{x, y, zoom, sx, sy}` (plane point → screen anchor). Ease between shots with `enter`; whip between framings with `snap` over 0.3s plus a 22px blur up-and-down on both layers.
+- **Halftone opener:** a DPR-aware `<canvas>` behind the camera: dot radius grows with distance from the window corner; the dissolve grows every dot to fill black (0.3s, `enter`). The vignette is a mask on the camera and must ramp in *with* the dissolve — a mask during the plate makes the window edges see-through onto yellow.
+- **Tool stream:** `Read` / `Edit` / `Bash` lines at ~110 cps, verb in `accent`, diff counts muted, last line `✓ 14 passed`. JetBrains Mono's Google latin subset has no `✓` — ship the full font.
 
 ### Bans
 
@@ -533,9 +541,12 @@ Pure functions of `t` / normalized `u`:
 - `countUp(u, from, to, decimals)`
 - `caretBlink(t, periodSec)`
 - `cameraDrift`, `cameraZoom`
-- `gsapVars.*` for GSAP timelines driven by fixed `totalTime = t`
+- `gsapEase(bezier)` → a GSAP ease **function**. GSAP does not parse CSS `"cubic-bezier(...)"` strings and silently falls back to `power1.out`.
+- `gsapVars.*(…, bezier, durationSec)` → `fromTo` vars with an explicit duration (an omitted duration used to give 0s tweens). Use them on a **paused** timeline moved only by `tl.seek(t, true)`; build every tween with `immediateRender: false`, and set `gsap.config({ autoSleep: 0 })` so `seek()` never calls `requestAnimationFrame` to wake the ticker.
 
-Grain: SVG `feTurbulence` with theme `grainSeed` — never `Math.random` during render.
+Grain: SVG `feTurbulence` from the theme's `grainSeed` / `grainFreq` / `octaves` (`grainDataUrl(theme)` → `--psf-grain-url`). Animate it by offsetting `background-position` by frame index — never `Math.random` during render.
+
+`themeToCssVars` also emits `--psf-mono-lh` (the mono line-height token) and `--psf-plate`.
 
 ---
 
