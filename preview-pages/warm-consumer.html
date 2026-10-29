@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>warm-consumer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0;padding:0;background:#000}
+.stage{position:relative;width:1920px;height:1080px;background:#16120f;color:#f5ebe0;overflow:hidden;font-family:"Plus Jakarta Sans", Helvetica, Arial, sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;padding:0; justify-content:center;}
+.events{position:absolute;inset:0;pointer-events:none}
+.evt{position:absolute;font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:14px;white-space:nowrap;opacity:.88}
+.evt.text{color:#f5ebe0}.evt.muted{color:#9a8778}.evt.accent{color:#e8a87c}
+.center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:40px;width:min(560px,92%)}
+.card{width:100%;background:#f3ebe3;color:#16120f;border-radius:22px;box-shadow:0 28px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(243,235,227,0.04);padding:28px;border:1px solid transparent}
+.card-dark{color:#f5ebe0}
+.meta{font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:12px;letter-spacing:0.04em;text-transform:none;color:#9a8778;margin-bottom:22px;display:flex;justify-content:space-between;align-items:baseline}
+.meta-plain{display:block;margin-bottom:18px}
+.title{font-family:"Plus Jakarta Sans", Helvetica, Arial, sans-serif;font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin:0 0 12px;color:inherit}
+.body{font-size:17px;line-height:1.45;margin:0;color:#9a8778}
+.row{display:flex;align-items:center;gap:16px;font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:16px;margin:14px 0}
+.row.dim{opacity:.55}.code{flex:0 0 auto}
+.bar{height:6px;border-radius:3px;background:#e8a87c;flex:0 0 auto}
+.bar.short{width:48px}.bar.long{width:160px;background:#9a9a9a}
+.ok{margin-left:auto;color:#e8a87c;font-weight:500}
+.pill{display:inline-block;margin-top:22px;background:#16120f;color:#f5ebe0;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600}
+.term-line{font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:18px;line-height:1.7}
+.prompt{color:#e8a87c;margin-right:10px}.out{color:#9a8778;padding-left:28px}
+.acc,.caret{color:#e8a87c}
+.caption{font-family:"Plus Jakarta Sans", Helvetica, Arial, sans-serif;font-size:58px;font-weight:600;letter-spacing:-0.025em;line-height:1.12;text-align:center;max-width:100%}
+.caption .hi{color:#f5ebe0}.caption .mu{color:#9a8778;font-weight:500}
+.grain{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:0.14;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27240%27%20height%3D%27240%27%3E%3Cfilter%20id%3D%27g%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.7%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%20seed%3D%2719%27/%3E%3C/filter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%2523g%29%27/%3E%3C/svg%3E");background-size:240px 240px}
+.scan{position:absolute;inset:0;z-index:51;pointer-events:none;opacity:0;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.35) 3px);mix-blend-mode:multiply}
+.vignette{position:absolute;inset:0;z-index:52;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.28) 100%)}
+</style></head><body>
+<div class="stage" data-theme="warm-consumer">
+  <div class="events"><div class="evt accent" style="left:140px;top:160px">paid · just now</div>
+<div class="evt muted" style="left:1500px;top:880px">balance updated</div></div>
+  <div class="center">
+    <div class="card">
+      <div class="meta meta-plain">Today</div>
+      <h2 class="title">You saved $42</h2>
+      <p class="body">Coffee, lunch, and the train — rounded up and put aside without thinking about it.</p>
+      <div class="pill">View stash</div>
+  </div>
+    <div class="caption"><span class="hi">Put aside</span> <span class="mu">without thinking.</span></div>
+  </div>
+  <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
+</div></body></html>

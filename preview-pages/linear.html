@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>linear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0;background:#000}
+.stage{position:relative;width:1920px;height:1080px;background:#000;overflow:hidden;color:#e7e9f1;-webkit-font-smoothing:antialiased}
+svg{position:absolute;inset:0}
+.lbl{font-family:"Geist Mono",ui-monospace,monospace;font-size:24px;font-weight:500;letter-spacing:.12em;fill:#e7e9f1}
+.lbl.dim{fill:#8f949b}
+.panel{position:absolute;left:1210px;top:580px;width:600px;height:300px;background:#0a0a0f;border:1px solid #26262c;border-radius:12px;
+  transform:perspective(1600px) rotateY(-22deg) rotateX(10deg) rotateZ(3deg);transform-origin:0 0;box-shadow:0 40px 120px rgba(0,0,0,.6);
+  font-family:Inter,system-ui,sans-serif;filter:blur(.6px);
+  -webkit-mask-image:none}
+.panel .hd{display:flex;align-items:center;gap:14px;padding:22px 26px;border-bottom:1px solid #26262c;font-size:18px;color:#8f949b}
+.panel .id{font-family:"Geist Mono",monospace;font-size:17px;color:#8f949b}
+.panel h3{margin:22px 26px 10px;font-size:26px;font-weight:500;letter-spacing:-.01em;color:#e7e9f1}
+.panel p{margin:0 26px;font-size:18px;line-height:1.5;color:#8f949b;max-width:600px}
+.panel .row{display:flex;gap:12px;margin:26px 26px 0;align-items:center}
+.pill{font-size:16px;color:#c9cbd2;border:1px solid #26262c;border-radius:999px;padding:7px 14px}
+.btn{margin-left:auto;background:#6860b6;color:#fff;font-size:17px;font-weight:500;border-radius:999px;padding:10px 20px;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset}
+.cap{position:absolute;left:0;right:0;top:930px;text-align:center;font-family:Inter,system-ui,sans-serif;font-size:60px;font-weight:500;letter-spacing:-.02em;color:#e7e9f1}
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse 70% 65% at 46% 42%,transparent 45%,rgba(0,0,0,.85) 100%)}
+.grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='21' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+</style></head><body>
+<div class="stage" data-theme="linear">
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" id="hud">
+  <defs>
+    <radialGradient id="haze" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#3a3a3e" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="dof"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="dof2"><feGaussianBlur stdDeviation="2.2"/></filter>
+  </defs>
+  <ellipse cx="1000" cy="450" rx="700" ry="300" fill="url(#haze)"/>
+  <g id="orbit" transform="rotate(-9 1000 430)"></g>
+  <g filter="url(#dof)" transform="rotate(-6 900 1180)">
+    <ellipse cx="900" cy="1180" rx="1250" ry="420" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="60" stroke-dasharray="3 26"/>
+    <ellipse cx="900" cy="1180" rx="1150" ry="380" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+  </g>
+</svg>
+<div class="vig"></div>
+<div class="panel">
+  <div class="hd"><span class="id">LIN-412</span><span>›</span><span>Export crashes when a clip has no audio</span></div>
+  <h3>Export crashes when a clip has no audio</h3>
+  <p>Reported from support. Reproduces on desktop builds.</p>
+  <div class="row"><span class="pill">Bug</span><span class="pill">Triage</span><span class="btn">Add to cycle 24</span></div>
+</div>
+<div class="cap">Triage that routes itself</div>
+<div class="grain"></div>
+</div>
+<script>
+const NS='http://www.w3.org/2000/svg', g=document.getElementById('orbit');
+const cx=1000, cy=430, RX=700, RY=272;
+function el(tag,attrs,parent=g){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e}
+// rings
+el('ellipse',{cx,cy,rx:RX*.68,ry:RY*.645,fill:'none',stroke:'#fff','stroke-opacity':.75,'stroke-width':4,'stroke-linecap':'round','stroke-dasharray':'0 22',filter:'url(#dof2)'});
+el('ellipse',{cx,cy,rx:RX*.83,ry:RY*.81,fill:'none',stroke:'#fff','stroke-opacity':.2,'stroke-width':30,'stroke-dasharray':'2 13'});
+el('ellipse',{cx,cy,rx:RX,ry:RY,fill:'none',stroke:'#4a4a50','stroke-width':2});
+el('ellipse',{cx,cy,rx:RX*1.07,ry:RY*1.075,fill:'none',stroke:'#26262c','stroke-width':1.5});
+// glowing arc travelling along the main orbit (tail = stacked fading segments)
+const segs=[[0.06,.18],[0.09,.32],[0.12,.55],[0.15,1]];
+for(const [len,op] of segs){
+  el('ellipse',{cx,cy,rx:RX,ry:RY,fill:'none',stroke:'#fff','stroke-opacity':op,'stroke-width':op===1?3.5:2.5,pathLength:1000,
+    'stroke-dasharray':`${len*1000} ${1000-len*1000}`,'stroke-dashoffset':-560+ (0.15-len)*-1000*0 ,filter:op===1?'url(#glow)':''});
+}
+// nodes on main orbit, parameter angle in degrees (0 = right, clockwise in screen)
+const nodes=[
+  {a:150,label:'ISSUE ENTERS TRIAGE',dx:-26,anchor:'end',dim:false},
+  {a:205,label:'LABEL AS',chip:'BUG',dx:-26,anchor:'end',dim:false},
+  {a:290,label:'LINK RELATED ISSUES',dx:26,anchor:'start',dim:true},
+  {a:335,label:'ASSIGN TO CYCLE 24',dx:10,dy:-34,anchor:'middle',dim:true},
+];
+for(const n of nodes){
+  const r=n.a*Math.PI/180, x=cx+RX*Math.cos(r), y=cy+RY*Math.sin(r);
+  el('circle',{cx:x,cy:y,r:n.dim?5:8,fill:'#fff',filter:'url(#glow)','fill-opacity':n.dim?.7:1});
+  const t=el('text',{x:x+n.dx,y:y+9+(n.dy||0),'text-anchor':n.anchor,class:'lbl'+(n.dim?' dim':'')});
+  t.textContent=n.label;
+  if(n.chip){
+    const bb=t.getBBox(); const cxp = n.anchor==='end'? bb.x+bb.width+14 : bb.x+bb.width+14;
+    // put chip after label: shift label left so chip sits before the node
+    const w=78; t.setAttribute('x', x+n.dx-w-14);
+    const nb=t.getBBox();
+    el('rect',{x:nb.x+nb.width+12,y:y-17,width:w,height:36,rx:4,fill:'#e7e9f1','fill-opacity':.14,stroke:'#e7e9f1','stroke-opacity':.35});
+    const c=el('text',{x:nb.x+nb.width+12+w/2,y:y+9,'text-anchor':'middle',class:'lbl'}); c.textContent=n.chip;
+  }
+}
+// arc position: dash starts at pathLength offset; place head between node 150° and 205°
+// ellipse path starts at angle 0 and runs clockwise; head at ~200°, tail toward 150°
+for(const e of g.querySelectorAll('ellipse[pathLength]')){
+  const len=parseFloat(e.getAttribute('stroke-dasharray'));
+  const head=200/360*1000; e.setAttribute('stroke-dashoffset', -(head-len));
+}
+</script>
+</body></html>

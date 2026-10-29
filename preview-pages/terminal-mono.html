@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>terminal-mono</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0;padding:0;background:#000}
+.stage{position:relative;width:1920px;height:1080px;background:#0a0c0a;color:#d2e0d2;overflow:hidden;font-family:"IBM Plex Mono", ui-monospace, monospace;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;padding:0; justify-content:center;}
+.events{position:absolute;inset:0;pointer-events:none}
+.evt{position:absolute;font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:15px;white-space:nowrap;opacity:.88}
+.evt.text{color:#d2e0d2}.evt.muted{color:#5c6e5c}.evt.accent{color:#3ddc84}
+.center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:40px;width:min(800px,92%)}
+.card{width:100%;background:#101410;color:#d2e0d2;border-radius:0px;box-shadow:none;padding:20px 24px;border:1px solid #1c2a1c}
+.card-dark{color:#d2e0d2}
+.meta{font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:12px;letter-spacing:0;text-transform:none;color:#5c6e5c;margin-bottom:22px;display:flex;justify-content:space-between;align-items:baseline}
+.meta-plain{display:block;margin-bottom:18px}
+.title{font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin:0 0 12px;color:inherit}
+.body{font-size:17px;line-height:1.45;margin:0;color:#5c6e5c}
+.row{display:flex;align-items:center;gap:16px;font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:16px;margin:14px 0}
+.row.dim{opacity:.55}.code{flex:0 0 auto}
+.bar{height:6px;border-radius:3px;background:#3ddc84;flex:0 0 auto}
+.bar.short{width:48px}.bar.long{width:160px;background:#9a9a9a}
+.ok{margin-left:auto;color:#3ddc84;font-weight:500}
+.pill{display:inline-block;margin-top:22px;background:#0a0c0a;color:#d2e0d2;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600}
+.term-line{font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:18px;line-height:1.7}
+.prompt{color:#3ddc84;margin-right:10px}.out{color:#5c6e5c;padding-left:28px}
+.acc,.caret{color:#3ddc84}
+.caption{font-family:"IBM Plex Mono", ui-monospace, monospace;font-size:48px;font-weight:600;letter-spacing:-0.01em;line-height:1.12;text-align:center;max-width:100%}
+.caption .hi{color:#d2e0d2}.caption .mu{color:#5c6e5c;font-weight:500}
+.grain{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:0.08;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27240%27%20height%3D%27240%27%3E%3Cfilter%20id%3D%27g%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%271.1%27%20numOctaves%3D%272%27%20stitchTiles%3D%27stitch%27%20seed%3D%273%27/%3E%3C/filter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%2523g%29%27/%3E%3C/svg%3E");background-size:240px 240px}
+.scan{position:absolute;inset:0;z-index:51;pointer-events:none;opacity:0.08;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.35) 3px);mix-blend-mode:multiply}
+.vignette{position:absolute;inset:0;z-index:52;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.2) 100%)}
+</style></head><body>
+<div class="stage" data-theme="terminal-mono">
+  <div class="events"><div class="evt muted" style="left:80px;top:80px">$ film render --fps 60</div>
+<div class="evt accent" style="left:80px;top:110px">ok  frames=2022</div>
+<div class="evt muted" style="left:1400px;top:960px">watch ./storyboard.ts</div></div>
+  <div class="center">
+    <div class="card card-dark">
+      <div class="meta meta-plain">~/projects/acme · main</div>
+      <div class="term-line"><span class="prompt">❯</span> check credits --customer atlas</div>
+      <div class="term-line out">allowed <span class="acc">0ms</span></div>
+      <div class="term-line"><span class="prompt">❯</span> <span class="caret">█</span></div>
+  </div>
+    <div class="caption"><span class="hi">$ check</span> <span class="mu">answers in-process</span></div>
+  </div>
+  <div class="grain"></div><div class="scan"></div><div class="vignette"></div>
+</div></body></html>

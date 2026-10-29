@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>opencode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0;background:#000}
+.stage{position:relative;width:1920px;height:1080px;background:#000;overflow:hidden;color:#fff;-webkit-font-smoothing:antialiased}
+/* halftone opener plate peeking behind the window (yellow = surfaceAlt, opener only) */
+.halftone{position:absolute;left:-200px;top:-260px;width:1500px;height:760px;transform:rotate(-12deg);
+  background-color:#fdff24;
+  background-image:radial-gradient(circle at center,#000 0 1px,transparent 1.5px);
+  background-size:8px 8px;
+  -webkit-mask-image:linear-gradient(170deg,#000 0%,#000 40%,transparent 66%);mask-image:linear-gradient(170deg,#000 0%,#000 40%,transparent 66%)}
+.halftone::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle at center,#000 0 4.2px,transparent 4.7px);background-size:8px 8px;
+  -webkit-mask-image:linear-gradient(170deg,transparent 34%,#000 58%);mask-image:linear-gradient(170deg,transparent 34%,#000 58%)}
+.cam{position:absolute;inset:0;perspective:1800px}
+.win{position:absolute;left:-120px;top:170px;width:2600px;height:1000px;transform-origin:30% 20%;
+  transform:rotateX(16deg) rotateZ(-11deg) scale(1.05);background:#0f0f0f;border-radius:28px;border:1px solid #1d1c1d}
+.layer{position:absolute;inset:0}
+.blurred{filter:blur(11px);opacity:.85}
+.sharp{-webkit-mask-image:linear-gradient(100deg,transparent 4%,#000 14%,#000 38%,transparent 56%);mask-image:linear-gradient(100deg,transparent 4%,#000 14%,#000 38%,transparent 56%)}
+.bar{position:absolute;left:0;right:0;top:0;height:150px;display:flex;align-items:center;gap:34px;padding-left:46px;border-bottom:1px solid #1d1c1d}
+.lights{display:flex;gap:18px}.lights i{width:26px;height:26px;border-radius:50%;display:block;background:#2a2a2a}
+.lights i:nth-child(1){background:#e2a33c}.lights i:nth-child(2){background:#3fc25b}.lights i:nth-child(3){background:#3a3a3a}
+.grid{width:40px;height:40px;display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-left:16px}
+.grid b{border:3px solid #8c8a8c;border-radius:4px}.grid b:last-child{border:none;position:relative}
+.grid b:last-child::before,.grid b:last-child::after{content:"";position:absolute;background:#8c8a8c;left:50%;top:50%;transform:translate(-50%,-50%)}
+.grid b:last-child::before{width:16px;height:3px}.grid b:last-child::after{width:3px;height:16px}
+.tab{display:flex;align-items:center;gap:22px;height:92px;padding:0 30px 0 20px;border-radius:22px;font-family:Inter,system-ui,sans-serif;font-size:46px;font-weight:500;color:#9e9c9f;letter-spacing:-.01em;white-space:nowrap}
+.tab.sel{background:#3d3d3e;color:#ececee}
+.chip{width:62px;height:62px;border-radius:14px;background:#5a82e6;color:#fff;font-size:36px;font-weight:600;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.caret{display:inline-block;width:4px;height:54px;background:#fff;margin-left:2px;vertical-align:middle}
+.x{color:#8a888b;font-size:44px;margin-left:16px;font-weight:400}
+.plus{font-family:Inter;font-size:52px;color:#7a787b}
+.pane{position:absolute;left:330px;top:200px;font-family:"JetBrains Mono",monospace;font-size:34px;line-height:1.75;color:#bab5b6;white-space:pre}
+.pane .you{color:#fff}.pane .k{color:#5a82e6}.pane .dim{color:#5f5b5c}
+.cam{-webkit-mask-image:radial-gradient(ellipse 80% 75% at 36% 30%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 80% 75% at 36% 30%,#000 45%,transparent 100%)}
+.fade{position:absolute;left:0;right:0;bottom:0;height:430px;background:linear-gradient(to bottom,transparent,#000 50%)}
+.endline{position:absolute;left:0;right:0;top:878px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:52px;font-weight:400;color:#bab5b6;letter-spacing:0}
+.endline b{color:#fff;font-weight:500}
+.grain{position:absolute;inset:0;opacity:.03;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+</style></head><body>
+<div class="stage" data-theme="opencode">
+  <div class="halftone"></div>
+  <div class="cam"><div class="win">
+    <template id="ui">
+      <div class="bar">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="grid"><b></b><b></b><b></b><b></b></div>
+        <div class="tab"><span class="chip">Z</span>Fixing audio sync</div>
+        <div class="tab sel"><span class="chip">Z</span>Camera<span class="caret"></span><span class="x">✕</span></div>
+        <div class="tab"><span class="chip">Z</span>New session</div>
+        <span class="plus">+</span>
+      </div>
+      <div class="pane"><span class="you">› move the camera preview into its own panel</span>
+
+<span class="k">read</span>   src/camera/Preview.tsx
+<span class="k">edit</span>   src/camera/Panel.tsx       <span class="dim">+48 −12</span>
+<span class="k">run</span>    bun test camera
+       <span class="dim">14 passed · 0 failed</span></div>
+    </template>
+    <div class="layer blurred" id="b"></div>
+    <div class="layer sharp" id="s"></div>
+  </div></div>
+    <div class="fade"></div>
+  <div class="endline"><b>tabs</b> for every agent session</div>
+  <div class="grain"></div>
+</div>
+<script>
+const t=document.getElementById('ui');
+for(const id of ['b','s']) document.getElementById(id).appendChild(t.content.cloneNode(true));
+</script>
+</body></html>
