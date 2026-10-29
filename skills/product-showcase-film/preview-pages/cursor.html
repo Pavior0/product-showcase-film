@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>cursor</title><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0}
+.stage{position:relative;width:1920px;height:1080px;background:#e5e3df;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:#000;-webkit-font-smoothing:antialiased}
+.left{position:absolute;left:0;top:0;width:960px;height:1080px;background:#fff;display:grid;place-items:center}
+.cap{font-size:64px;font-weight:400;letter-spacing:-.02em;line-height:1.2;text-align:center}
+.chip{display:inline-block;background:#e4e4e4;border-radius:12px;padding:2px 18px;font-size:54px;vertical-align:4px}
+.right{position:absolute;left:960px;top:0;width:960px;height:1080px;background:linear-gradient(160deg,#e9ddfb 0%,#c29cf9 40%,#a370f5 70%,#6a37ba 100%)}
+.win{position:absolute;left:1060px;top:250px;width:760px;background:#fbfbfb;border-radius:14px;box-shadow:0 30px 80px rgba(60,20,120,.25),0 0 0 1px rgba(0,0,0,.06);overflow:hidden}
+.hd{height:64px;display:flex;align-items:center;gap:10px;padding:0 22px;border-bottom:1px solid #ececec;font-size:21px;font-weight:600}
+.l{width:12px;height:12px;border-radius:50%;background:#dcdcdc}
+.row{display:flex;align-items:center;height:68px;padding:0 22px;font-size:20px;border-bottom:1px solid #f0f0f0}
+.m{margin-left:auto;color:#6d6d6d;font-family:"Geist Mono",monospace;font-size:17px}
+.st{padding:28px 22px 30px}
+.big{font-size:120px;font-weight:500;color:#dd4311;letter-spacing:-.04em;line-height:1}
+.lb{font-size:22px;color:#6d6d6d;margin-top:8px}
+.ptr{position:absolute;left:1500px;top:362px}
+</style></head><body><div class="stage">
+<div class="left"><div class="cap">Click <span class="chip">+ New</span> to<br/>start a run</div></div>
+<div class="right"></div>
+<div class="win"><div class="hd"><span class="l"></span><span class="l"></span><span class="l"></span>&nbsp;Cost per commit</div>
+<div class="row">Frontier model<span class="m">$0.41</span></div>
+<div class="row" style="background:#f2f2f2">Routed<span class="m">$0.17</span></div>
+<div class="st"><div class="big">58%</div><div class="lb">cheaper per commit</div></div></div>
+<svg class="ptr" viewBox="0 0 24 24" width="44" height="44"><path d="M4 2 L4 19 L8.6 15 L11.6 22 L14.4 20.8 L11.5 14 L18 14 Z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</div></body></html>

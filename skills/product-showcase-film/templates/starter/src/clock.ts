@@ -19,13 +19,19 @@ declare global {
     __now: () => number;
     __duration: number;
     __fps: number;
+    __width: number;
+    __height: number;
+    __theme: string;
     __ready: Promise<void>;
     __rafDuringSeek: number;
     __rafStack: string;
   }
 }
 
-export function installClock(render: RenderFn, duration: number, fps: number): Clock {
+export type ClockSpec = { duration: number; fps: number; width: number; height: number; theme: string };
+
+export function installClock(render: RenderFn, spec: ClockSpec): Clock {
+  const { duration, fps } = spec;
   let t = 0;
   let seeking = false;
   window.__rafDuringSeek = 0;
@@ -56,6 +62,9 @@ export function installClock(render: RenderFn, duration: number, fps: number): C
   window.__now = () => t;
   window.__duration = duration;
   window.__fps = fps;
+  window.__width = spec.width;
+  window.__height = spec.height;
+  window.__theme = spec.theme;
   seek(0);
   return { seek, now: () => t, duration, fps };
 }

@@ -1,2 +1,4 @@
 node_modules/
 out/
+# vendored snapshot (npm run vendor-themes); the source of truth is ../../themes
+themes/

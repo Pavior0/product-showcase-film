@@ -4,11 +4,12 @@ description: >-
   Load before making a product showcase / launch / feature demo film as code
   (not After Effects, not a screen recording). Also when the user says product
   film, code-driven demo video, Emil-style Polar film, OpenCode/Linear-style
-  launch film, or HTML/DOM timeline → Playwright → ffmpeg.
+  launch film, Cursor/Raycast/Vercel/Granola/Stripe-style film, or HTML/DOM
+  timeline → Playwright → ffmpeg.
 license: MIT
 metadata:
   author: Pavior0
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 # Product showcase film (code-driven)
 
@@ -25,6 +26,12 @@ Before writing any scene, pick **one** preset and copy its files into the film p
 | `event-noir` | Devtools / infra / billing / API. Polar-like: dark grain, floating mono events, light cards, one cobalt accent (sampled from Emil's film). |
 | `opencode` | Agent / TUI / desktop dev tools. Measured from OpenCode's Tabs + Desktop launch films: yellow halftone opener, one long tilted close-up of the real app with slow push-in, pure-black lowercase-mono end cards on hard cuts, one blue accent. |
 | `linear` | Workflow / issue tracking / polished SaaS. Measured from Linear's Loops + Diffs films: continuous camera, near-black app surfaces, uppercase mono diagram labels, sentence-case Inter end cards that blur in and brighten, one indigo accent. |
+| `linear-light` | Feature / workflow explainers in Linear's light docs-film look: flat UI cards on near-white, ~800ms cross-dissolves, color only in status dots. |
+| `cursor` | AI coding / dev infra. Measured from Cursor's films: black word-by-word captions on white on hard cuts, flat windows on warm-gray or lilac plates, one orange stat. |
+| `raycast` | Launchers / command palettes / desktop utilities. Dark glass search bar over liquid chrome, typed query, tracked uppercase mono end pairs. |
+| `vercel` | Infra / API / SDK. Uppercase Geist Mono typed on black with a block caret, terminal transcripts, white hairline isometric wireframes, no camera. |
+| `granola` | Friendly consumer AI (notes, voice, writing). Off-white paper, soft 3D keycaps, one lime accent with glow, hand-drawn headline over a serif. |
+| `stripe-terminal` | CLI payments / fintech / agent tooling. Deep-indigo TUI in a light macOS window: typed command, spinner → ✓, key/value panels, light approval modal. |
 | `paper-editorial` | Launch essays, design tools, thoughtful B2B. Warm paper, serif captions, terracotta. |
 | `terminal-mono` | CLI / security / DB / local-first. All mono, hard corners, phosphor green, cuts + typeOn. |
 | `warm-consumer` | Consumer / lifestyle / human fintech. Cocoa stage, soft cards, peach. |
@@ -36,9 +43,10 @@ Files in this skill's directory:
 - `themes/base.css`: tokens as CSS variables; seeded deterministic grain.
 - `themes/motion.ts`: transitions as pure functions of `t` (slideBlur, riseFade, cardStackIn, typeOn, countUp, caretBlink), usable inside GSAP/Motion timelines.
 - `preview-pages/<id>.html`, `scripts/screenshot.mjs` (`node scripts/screenshot.mjs <id> ...`), `previews/<id>.png`: reference look per preset.
-- `templates/starter/`: copy-ready Vite + TS film project (storyboard, DOM scenes, GSAP clock, Playwright → ffmpeg). Scaffold with `cp -r <skill>/templates/starter my-film`.
+- `templates/starter/`: copy-ready Vite + TS film project with one example storyboard per preset (`src/storyboards/<id>.ts`) and a shared scene kit (`src/scenes/kit.ts`). Scaffold with `cp -r <skill>/templates/starter my-film && cp -r <skill>/themes my-film/themes` (the `@themes` alias prefers `./themes`). Switch presets with one id: `?theme=<id>` in the preview, `--theme <id>` (or `VITE_THEME=<id>`) for render/stills/determinism/cues. Frame size and fps come from the preset.
 
 Rules:
+- Presets measured from brand films (opencode, linear, linear-light, cursor, raycast, vercel, granola, stripe-terminal) are unofficial. They bundle no logos, and their fonts are free stand-ins unless `references/themes.md` says the real face is free (Vercel's Geist).
 - Swap only the **accent** hex to the brand's real accent and the font if the brand has one. Keep every other token.
 - Brand has no fitting preset → copy the nearest one and change only palette + fonts; never start from blank.
 - New preset for a brand: download 1–2 of its official launch films, extract frames, sample colors and measure shot lengths / transitions / end-card timing before writing tokens. Never guess a brand's look.
@@ -96,7 +104,7 @@ The preset files are engine-agnostic: import tokens/CSS into whichever engine yo
 
 1. One-sentence brief: audience, length (~15–90s), aspect (16:9 / 9:16), one story beat.
 2. Pick the preset; set the accent to the brand's real color.
-3. Copy `templates/starter` (or scaffold storyboard + empty scenes); set the theme id; first silent pass.
+3. Copy `templates/starter` plus `themes/` into it, set the theme id (`--theme` / `?theme=`), and edit `src/storyboards/<id>.ts`; first silent pass.
 4. Screenshot each scene vs `previews/<id>.png`; design-crit pass, then write the notes down as standing rules.
 5. Add sound cues + music hit; loudness check; human listen.
 6. Export master + web + poster.

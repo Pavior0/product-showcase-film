@@ -4,11 +4,23 @@
  * paint itself from its local time. Nothing reads the wall clock.
  */
 import { gsap } from "gsap";
-import { getTheme, themeToCssVars } from "../themes/index.ts";
-import "../themes/base.css";
+import { getTheme, themeToCssVars } from "@themes/index.ts";
+import "@themes/base.css";
 import "./style.css";
-import { film, placeScenes, scenes, totalDuration, type Placed } from "./storyboard.ts";
+import "./scenes/kit.css";
+import { getStoryboard, placeScenes, totalDuration, type Placed } from "./storyboard.ts";
 import { blackScene, lineScene, titleScene, wordmarkScene } from "./scenes/endcards.ts";
+import {
+  captionScene,
+  hudScene,
+  keysScene,
+  markScene,
+  pairScene,
+  searchScene,
+  terminalScene,
+  windowScene,
+  wireScene,
+} from "./scenes/kit.ts";
 import { macroScene } from "./scenes/macro.ts";
 import type { SceneCtx, SceneView } from "./scenes/types.ts";
 
@@ -16,11 +28,18 @@ export type Film = {
   stage: HTMLElement;
   duration: number;
   fps: number;
+  width: number;
+  height: number;
+  theme: string;
   render(t: number): void;
 };
 
-export function buildFilm(mount: HTMLElement): Film {
-  const theme = getTheme(film.theme);
+/** themeId picks the preset AND its example storyboard (src/storyboard.ts registry). */
+export function buildFilm(mount: HTMLElement, themeId: string): Film {
+  const board = getStoryboard(themeId);
+  const theme = getTheme(board.theme);
+  const { width, height, fps } = theme.frame;
+  const scenes = board.scenes;
   // The master timeline is paused and only moves via seek(). GSAP's ticker falls asleep when
   // idle (autoSleep) and every seek() then calls ticker.wake() → requestAnimationFrame inside
   // the frame render, which the clock's rAF tripwire rejects. Keep the ticker awake instead;
@@ -36,7 +55,7 @@ export function buildFilm(mount: HTMLElement): Film {
   const tl = gsap.timeline({ paused: true });
   const placed = placeScenes(scenes);
   const views: { p: Placed; v: SceneView }[] = placed.map((p) => {
-    const ctx: SceneCtx = { theme, tl, start: p.start, fps: film.fps, width: film.width, height: film.height };
+    const ctx: SceneCtx = { theme, tl, start: p.start, fps, width, height };
     const s = p.scene;
     let v: SceneView;
     switch (s.id) {
@@ -54,6 +73,33 @@ export function buildFilm(mount: HTMLElement): Film {
         break;
       case "line":
         v = lineScene(s.copy);
+        break;
+      case "caption":
+        v = captionScene(ctx, s);
+        break;
+      case "window":
+        v = windowScene(ctx, s);
+        break;
+      case "hud":
+        v = hudScene(ctx, s);
+        break;
+      case "search":
+        v = searchScene(ctx, s);
+        break;
+      case "terminal":
+        v = terminalScene(ctx, s);
+        break;
+      case "keys":
+        v = keysScene(ctx, s);
+        break;
+      case "wire":
+        v = wireScene(ctx, s);
+        break;
+      case "pair":
+        v = pairScene(ctx, s);
+        break;
+      case "mark":
+        v = markScene(ctx, s);
         break;
     }
     v.el.dataset.scene = `${p.index}:${s.id}`;
@@ -78,9 +124,9 @@ export function buildFilm(mount: HTMLElement): Film {
       if (on) v.render(t - p.start);
     });
     // grain re-rolls per frame from the frame index only (deterministic)
-    const f = Math.round(t * film.fps);
+    const f = Math.round(t * fps);
     grain.style.backgroundPosition = `${(f * 97) % 240}px ${(f * 53) % 240}px`;
   }
 
-  return { stage, duration, fps: film.fps, render };
+  return { stage, duration, fps, width, height, theme: theme.id, render };
 }

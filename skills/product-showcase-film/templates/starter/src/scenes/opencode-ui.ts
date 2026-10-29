@@ -3,7 +3,7 @@
  * macro push-ins stay crisp. Every dynamic node carries data-k so the macro scene
  * can update all clones (sharp + blurred DOF layers) together.
  */
-import type { MacroCopy } from "../storyboard.ts";
+import type { MacroCopy } from "../storyboards/types.ts";
 
 export const PLANE = { w: 3200, h: 2000, barH: 112, tabsX: 262 };
 /** absolute x of each tab slot inside the tab row (plane units) */

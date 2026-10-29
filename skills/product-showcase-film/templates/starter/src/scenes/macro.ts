@@ -4,8 +4,8 @@
  * Camera = GSAP fromTo segments on a plain object (paused master timeline, seek-driven).
  * Content = pure motion.ts functions of local t (typeOn, caretBlink, cameraDrift).
  */
-import { motion } from "../../themes/index.ts";
-import type { MacroBeats, MacroCopy } from "../storyboard.ts";
+import { motion } from "@themes/index.ts";
+import type { MacroBeats, MacroCopy } from "../storyboards/types.ts";
 import type { SceneCtx, SceneView } from "./types.ts";
 import {
   buildWindow,

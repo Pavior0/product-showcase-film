@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>raycast</title><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0}
+.stage{position:relative;width:1920px;height:1080px;background:#000;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+.chrome{position:absolute;inset:-20%;filter:blur(30px);background:
+ radial-gradient(ellipse 40% 30% at 30% 35%,rgba(255,255,255,.55),transparent 70%),
+ radial-gradient(ellipse 35% 25% at 72% 62%,rgba(200,200,210,.4),transparent 70%),
+ conic-gradient(from 210deg at 50% 50%,#050505,#3a3a3a,#0b0b0b,#8a8a8a,#111,#2b2b2b,#050505)}
+.bar{position:absolute;left:410px;top:300px;width:1100px;height:120px;border-radius:60px;background:rgba(17,17,17,.78);border:1px solid rgba(255,255,255,.12);
+ display:flex;align-items:center;padding:0 56px;font-size:42px;box-shadow:0 40px 120px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12);box-sizing:border-box}
+.caret{display:inline-block;width:3px;height:48px;background:#fff;margin-left:4px}
+.list{position:absolute;left:410px;top:438px;width:1100px;border-radius:28px;padding:12px;background:rgba(17,17,17,.82);border:1px solid rgba(255,255,255,.1);box-sizing:border-box}
+.it{height:72px;display:flex;align-items:center;gap:20px;padding:0 22px;border-radius:14px;font-size:30px;color:#d8d8d8}
+.it.sel{background:rgba(255,255,255,.08);color:#fff}
+.ico{width:34px;height:34px;border-radius:9px;background:#2a2a2a}.sel .ico{background:#ff6363}
+.k{margin-left:auto;font-family:"Geist Mono",monospace;font-size:20px;color:#6c6c6c;letter-spacing:.1em}
+.pair{position:absolute;bottom:110px;font-family:"Geist Mono",monospace;font-size:30px;letter-spacing:.3em}
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 45%,transparent 50%,rgba(0,0,0,.5) 100%)}
+</style></head><body><div class="stage">
+<div class="chrome"></div><div class="vig"></div>
+<div class="bar">clipboard hist<span class="caret"></span></div>
+<div class="list">
+<div class="it sel"><span class="ico"></span>Clipboard History<span class="k">COMMAND</span></div>
+<div class="it"><span class="ico"></span>Clipboard: Paste as Plain Text<span class="k">COMMAND</span></div>
+<div class="it"><span class="ico"></span>Search Snippets<span class="k">EXTENSION</span></div>
+<div class="it"><span class="ico"></span>Window: Left Half<span class="k">⌥ ←</span></div>
+</div>
+<div class="pair" style="left:160px;color:#6c6c6c">NEW</div><div class="pair" style="right:160px">LAUNCHER DESIGN</div>
+</div></body></html>

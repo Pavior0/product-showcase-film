@@ -8,6 +8,12 @@ export { warmConsumer } from "./warm-consumer.ts";
 export { socialReel } from "./social-reel.ts";
 export { opencode } from "./opencode.ts";
 export { linear } from "./linear.ts";
+export { linearLight } from "./linear-light.ts";
+export { cursor } from "./cursor.ts";
+export { raycast } from "./raycast.ts";
+export { vercel } from "./vercel.ts";
+export { granola } from "./granola.ts";
+export { stripeTerminal } from "./stripe-terminal.ts";
 
 export * as motion from "./motion.ts";
 
@@ -18,6 +24,12 @@ import { warmConsumer } from "./warm-consumer.ts";
 import { socialReel } from "./social-reel.ts";
 import { opencode } from "./opencode.ts";
 import { linear } from "./linear.ts";
+import { linearLight } from "./linear-light.ts";
+import { cursor } from "./cursor.ts";
+import { raycast } from "./raycast.ts";
+import { vercel } from "./vercel.ts";
+import { granola } from "./granola.ts";
+import { stripeTerminal } from "./stripe-terminal.ts";
 import type { Theme } from "./types.ts";
 
 export const themes: Record<string, Theme> = {
@@ -28,6 +40,12 @@ export const themes: Record<string, Theme> = {
   "social-reel": socialReel,
   opencode,
   linear,
+  "linear-light": linearLight,
+  cursor,
+  raycast,
+  vercel,
+  granola,
+  "stripe-terminal": stripeTerminal,
 };
 
 export function getTheme(id: string): Theme {
@@ -60,6 +78,7 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
     "--psf-caption-tracking": `${theme.type.caption.trackingEm}em`,
     "--psf-caption-lh": String(theme.type.caption.lineHeight),
     "--psf-caption-muted-weight": String(theme.type.captionMuted.weight),
+    "--psf-caption-muted-size": `${theme.type.captionMuted.sizePx}px`,
     "--psf-mono-size": `${theme.type.mono.sizePx}px`,
     "--psf-mono-weight": String(theme.type.mono.weight),
     "--psf-mono-lh": String(theme.type.mono.lineHeight),
@@ -74,6 +93,23 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
     "--psf-vignette": String(theme.texture.vignette),
     "--psf-grain-url": `url("${grainDataUrl(theme)}")`,
     ...(p.plate ? { "--psf-plate": p.plate } : {}),
+    ...(p.backdrop ? { "--psf-backdrop": p.backdrop } : {}),
+    ...(theme.type.display
+      ? {
+          "--psf-font-display": theme.type.display.family,
+          "--psf-display-size": `${theme.type.display.sizePx}px`,
+          "--psf-display-weight": String(theme.type.display.weight),
+          "--psf-display-tracking": `${theme.type.display.trackingEm}em`,
+          "--psf-display-lh": String(theme.type.display.lineHeight),
+        }
+      : {}),
+    "--psf-mono-tracking": `${theme.type.mono.trackingEm}em`,
+    "--psf-card-title-size": `${theme.type.cardTitle.sizePx}px`,
+    "--psf-card-title-weight": String(theme.type.cardTitle.weight),
+    "--psf-card-body-size": `${theme.type.cardBody.sizePx}px`,
+    "--psf-font-card-title": theme.type.cardTitle.family,
+    "--psf-surface-raw": p.surface,
+    "--psf-accent-on-light": p.accentOnLight ?? p.accent,
   };
 }
 

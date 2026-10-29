@@ -1,5 +1,5 @@
 import type { gsap } from "gsap";
-import type { Theme } from "../../themes/index.ts";
+import type { Theme } from "@themes/index.ts";
 
 export type SceneCtx = {
   theme: Theme;

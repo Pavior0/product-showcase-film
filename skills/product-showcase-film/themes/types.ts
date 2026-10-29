@@ -29,6 +29,11 @@ export type Palette = {
    * base.css paints .psf-card with surfaceAlt, so a plate there turns every card yellow.
    */
   plate?: Hex;
+  /**
+   * Optional full-bleed CSS background for UI backdrops that are a gradient, not one hex
+   * (cursor's lilac plate, granola's lavender sheet). Exposed as --psf-backdrop. Never a card fill.
+   */
+  backdrop?: string;
 };
 
 export type TypeRole = {
@@ -56,6 +61,11 @@ export type TypeScale = {
   mono: TypeRole;
   /** Tiny meta (ETHOS / PRINCIPLE I) — use sparingly */
   meta: TypeRole;
+  /**
+   * Optional brand display role used for one beat only: granola's hand-drawn headline,
+   * vercel's tracked eyebrow, linear's HUD node label. Exposed as --psf-display-*.
+   */
+  display?: TypeRole;
 };
 
 export type EasingName = "enter" | "exit" | "settle" | "snap";

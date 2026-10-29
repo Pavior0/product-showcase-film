@@ -1,8 +1,16 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 
-// themes/ is a copy of ../themes so this folder works when copied on its own.
-// Re-sync after editing the shared presets: npm run sync-themes
+// `@themes` → ./themes when you vendored a copy (`npm run vendor-themes`, for a starter copied
+// out of the skill), otherwise the skill's shared ../../themes. One source of truth, no drift.
+const root = path.dirname(fileURLToPath(import.meta.url));
+const vendored = path.join(root, "themes");
+const themesDir = fs.existsSync(path.join(vendored, "index.ts")) ? vendored : path.resolve(root, "../../themes");
+
 export default defineConfig({
-  server: { port: 5179, strictPort: false },
+  resolve: { alias: { "@themes": themesDir } },
+  server: { port: 5179, strictPort: false, fs: { allow: [root, themesDir] } },
   logLevel: "warn",
 });

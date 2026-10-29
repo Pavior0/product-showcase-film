@@ -20,6 +20,16 @@ const fonts = [
     url: "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/webfonts/JetBrainsMono%5Bwght%5D.woff2",
   },
   { family: "Inter", weight: "100 900", file: "Inter-var.woff2", google: "Inter:wght@100..900" },
+  // v0.2 presets (linear, vercel, raycast, granola, the older presets). Variable latin subsets.
+  { family: "Geist", weight: "100 900", file: "Geist-var.woff2", google: "Geist:wght@100..900" },
+  { family: "Geist Mono", weight: "100 900", file: "GeistMono-var.woff2", google: "Geist+Mono:wght@100..900" },
+  { family: "IBM Plex Mono", weight: "400", file: "IBMPlexMono-400.woff2", google: "IBM+Plex+Mono:wght@400" },
+  { family: "IBM Plex Mono", weight: "500", file: "IBMPlexMono-500.woff2", google: "IBM+Plex+Mono:wght@500" },
+  { family: "IBM Plex Mono", weight: "600", file: "IBMPlexMono-600.woff2", google: "IBM+Plex+Mono:wght@600" },
+  { family: "Plus Jakarta Sans", weight: "200 800", file: "PlusJakartaSans-var.woff2", google: "Plus+Jakarta+Sans:wght@200..800" },
+  { family: "Source Serif 4", weight: "200 900", file: "SourceSerif4-var.woff2", google: "Source+Serif+4:opsz,wght@8..60,200..900" },
+  { family: "Newsreader", weight: "200 800", file: "Newsreader-var.woff2", google: "Newsreader:opsz,wght@6..72,200..800" },
+  { family: "Caveat Brush", weight: "400", file: "CaveatBrush-400.woff2", google: "Caveat+Brush" },
 ];
 
 const UA =

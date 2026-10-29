@@ -17,6 +17,12 @@ const allThemes = [
   { id: "social-reel", w: 1080, h: 1920 },
   { id: "opencode", w: 1920, h: 1080 },
   { id: "linear", w: 1920, h: 1080 },
+  { id: "linear-light", w: 1920, h: 1080 },
+  { id: "cursor", w: 1920, h: 1080 },
+  { id: "raycast", w: 1920, h: 1080 },
+  { id: "vercel", w: 1920, h: 1080 },
+  { id: "granola", w: 1920, h: 1080 },
+  { id: "stripe-terminal", w: 1920, h: 1080 },
 ];
 const themes = only.length ? allThemes.filter((t) => only.includes(t.id)) : allThemes;
 

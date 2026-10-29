@@ -53,7 +53,7 @@
   font-family: var(--psf-font-mono);
   font-size: var(--psf-mono-size);
   font-weight: var(--psf-mono-weight, 400);
-  letter-spacing: 0;
+  letter-spacing: var(--psf-mono-tracking, 0);
   line-height: var(--psf-mono-lh, 1.35);
   color: var(--psf-text);
 }
@@ -92,6 +92,24 @@
   font-size: var(--psf-mono-size);
   white-space: nowrap;
   opacity: 0.85;
+}
+
+/* Optional one-beat brand display role (theme.type.display) */
+.psf-stage .psf-display {
+  font-family: var(--psf-font-display, var(--psf-font-caption));
+  font-size: var(--psf-display-size, var(--psf-caption-size));
+  font-weight: var(--psf-display-weight, var(--psf-caption-weight));
+  letter-spacing: var(--psf-display-tracking, 0);
+  line-height: var(--psf-display-lh, 1);
+  color: var(--psf-text);
+  margin: 0;
+}
+
+/* Optional gradient backdrop (palette.backdrop) */
+.psf-stage .psf-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--psf-backdrop, var(--psf-plate, var(--psf-bg)));
 }
 
 /* Deterministic film grain + optional scanlines + vignette */

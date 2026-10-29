@@ -25,7 +25,9 @@ export function mountPreview(stage: HTMLElement, clock: Clock) {
     const f = Math.round(t * clock.fps);
     label.textContent = `${t.toFixed(3)}s  f${f}`;
     range.value = String(t);
-    history.replaceState(null, "", `?t=${t.toFixed(3)}`);
+    const q = new URLSearchParams(location.search);
+    q.set("t", t.toFixed(3));
+    history.replaceState(null, "", `?${q}`);
   };
   const seek = (t: number) => show(clock.seek(t));
 

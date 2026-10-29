@@ -2,7 +2,7 @@
  * opencode end cards: centred lowercase mono on pure black, hard cuts.
  * Only motion allowed: the first title's 0.2s exit fade (GSAP tween on the element).
  */
-import { motion } from "../../themes/index.ts";
+import { motion } from "@themes/index.ts";
 import type { SceneCtx, SceneView } from "./types.ts";
 
 const card = (cls: string): HTMLElement => {

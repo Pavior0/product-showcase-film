@@ -55,28 +55,37 @@ Pick **one**. Copy its tokens. Change only the accent hex (and font if the brand
 | --- | --- |
 | `event-noir` | Devtools / infra / billing — Polar-like dark grain + cobalt |
 | `opencode` | Agent / TUI / desktop — measured from OpenCode launch films |
-| `linear` | Workflow / SaaS — measured from Linear Loops + Diffs films |
+| `linear` | Workflow / SaaS — Linear's dark films: continuous camera, tilted app, mono diagram labels, blur-in end cards |
+| `linear-light` | Feature explainers — Linear's light docs films: flat cards on near-white, slow cross-dissolves |
+| `cursor` | AI coding / dev infra — word-by-word black captions on white, flat windows on warm-gray / lilac plates, one orange stat |
+| `raycast` | Launchers / desktop utilities — dark glass search bar over liquid chrome, typed query, tracked mono pairs |
+| `vercel` | Infra / API / SDK — uppercase Geist Mono typed on black, terminal transcripts, hairline wireframes, no camera |
+| `granola` | Friendly consumer AI — off-white paper, soft 3D keycaps, lime glow, hand-drawn headline over a serif |
+| `stripe-terminal` | CLI payments / fintech — deep-indigo TUI in a light macOS window, spinner → ✓, approval modal |
 | `paper-editorial` | Launch essays / design tools — warm paper + terracotta |
 | `terminal-mono` | CLI / security / DB — phosphor mono, hard cuts |
 | `warm-consumer` | Consumer / lifestyle — cocoa stage + peach |
 | `social-reel` | 9:16 Reels/Shorts ≤30s — oversized captions + coral |
 
-`opencode` and `linear` are **unofficial** measurements of those brands' public launch films on X. No logos are bundled; drop in real logo files. Typefaces may be stand-ins where the brand face is licensed (e.g. JetBrains Mono ≈ Berkeley Mono).
+The brand-named presets (`opencode`, `linear`, `linear-light`, `cursor`, `raycast`, `vercel`, `granola`, `stripe-terminal`) are **unofficial** readings of each company's public launch films on X. Source post URLs are listed in each `themes/<id>.ts` header and in `references/themes.md`. No logos are bundled, so drop in real logo files yourself. Where the brand typeface is licensed or custom, the preset uses a free stand-in and names the real face. Examples: Inter for Inter Display, Geist Mono for Berkeley Mono, Caveat Brush for Granola's hand lettering, and Inter for Söhne. Vercel's Geist is the real font.
 
 Full tables: [`skills/product-showcase-film/references/themes.md`](skills/product-showcase-film/references/themes.md).
 
 ### Starter template
 
+One starter serves every preset. Each preset has its own storyboard (`src/storyboards/<id>.ts`) built from a shared scene kit, and one switch picks the preset.
+
 ```bash
-SKILL=$(npx skills find product-showcase-film 2>/dev/null) # or path after install
-cp -r ~/.agents/skills/product-showcase-film/templates/starter my-film
-# exact install path depends on agent; Claude Code often uses .claude/skills/
+SKILL=~/.agents/skills/product-showcase-film   # exact install path depends on agent; Claude Code often uses .claude/skills/
+cp -r $SKILL/templates/starter my-film && cp -r $SKILL/themes my-film/themes
 cd my-film
 npm install
 npx playwright install chromium
 # needs ffmpeg on PATH
-npm run dev          # scrubber preview
-npm run render:1080  # → out/film-1080p.mp4
+npm run dev                                   # scrubber preview; switch with ?theme=cursor
+npm run render -- --theme cursor              # → out/cursor-1080p.mp4 at the preset's fps
+VITE_THEME=vercel npm run render:4k           # env var works too (default: opencode)
+npm run check:determinism -- --theme cursor --from 0 --dur end
 ```
 
 See [`templates/starter/README.md`](skills/product-showcase-film/templates/starter/README.md) for flags, determinism checks, and sound cues.
@@ -85,9 +94,18 @@ See [`templates/starter/README.md`](skills/product-showcase-film/templates/start
 
 Tell the agent:
 
-> Make a 20s launch film for \<product\>. Use the product-showcase-film skill. Preset: opencode. Accent: #5a82e6.
+> Make a 20s launch film for \<product\>. Use the product-showcase-film skill. Preset: cursor. Accent: #dd4311.
 
-The skill forces: pick a preset → copy `templates/starter` → edit `src/storyboard.ts` → preview → Playwright frame render → ffmpeg. Frame N depends only on `t = N / fps`.
+The skill makes the agent work in this order:
+1. Pick a preset.
+2. Copy `templates/starter` and `themes/`.
+3. Set the theme id (`?theme=` / `--theme` / `VITE_THEME`).
+4. Edit `src/storyboards/<id>.ts`.
+5. Preview.
+6. Render frames with Playwright.
+7. Encode with ffmpeg.
+
+Frame N depends only on `t = N / fps`, and a shuffled-order render must match the sequential render pixel for pixel.
 
 ## Open alternatives
 
@@ -101,7 +119,7 @@ The skill forces: pick a preset → copy `templates/starter` → edit `src/story
 
 - Inspiration: [Emil Widlund](https://x.com/emilwidlund/status/2115213417539879300) — public Polar thread. Paid Polar package is separate and not redistributed here.
 - Open engines above for production pipelines.
-- OpenCode / Linear presets measured from their public X launch films; not affiliated with either company.
+- The OpenCode, Linear, Cursor, Raycast, Vercel, Granola and Stripe presets are measured from those companies' public X launch films. This project is not affiliated with any of them, and all trademarks belong to their owners.
 
 ## License
 

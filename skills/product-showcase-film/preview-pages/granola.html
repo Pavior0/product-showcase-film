@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>granola</title><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,400&family=Caveat+Brush&display=swap" rel="stylesheet"/>
+<style>
+html,body{margin:0}
+.stage{position:relative;width:1920px;height:1080px;background:#f6f6f1;overflow:hidden;color:#343431;-webkit-font-smoothing:antialiased}
+.keys{position:absolute;left:50%;top:250px;transform:translateX(-50%);display:flex;gap:40px}
+.key{width:210px;height:200px;border-radius:40px;box-sizing:border-box;display:grid;place-items:end start;padding:26px 30px;font:400 30px Inter,sans-serif;color:#5e5e59;
+ background:linear-gradient(180deg,#fbfbf8,#ecece5);box-shadow:0 12px 0 #d3d3ca,0 30px 50px rgba(52,52,49,.18)}
+.key.a{background:linear-gradient(180deg,#dcf35e,#d1eb49);box-shadow:0 12px 0 #a8bf33,0 30px 50px rgba(120,140,20,.3);color:#2c2f25}
+.pill{position:absolute;left:50%;top:560px;transform:translateX(-50%);width:580px;height:96px;border-radius:999px;background:#2c2f25;display:flex;align-items:center;justify-content:center;gap:7px;
+ box-shadow:0 0 60px rgba(209,235,73,.45)}
+.pill i{display:block;width:7px;border-radius:4px;background:#d1eb49}
+.h{position:absolute;left:0;right:0;top:720px;text-align:center;font-family:"Caveat Brush",cursive;font-size:170px;line-height:1;color:#343431}
+.s{position:absolute;left:0;right:0;top:900px;text-align:center;font-family:Newsreader,Georgia,serif;font-size:44px;color:#5e5e59}
+.grain{position:absolute;inset:0;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+</style></head><body><div class="stage">
+<div class="keys"><div class="key a">fn</div><div class="key">voice</div><div class="key">typing</div></div>
+<div class="pill" id="p"></div>
+<div class="h">VOICE TYPING</div>
+<div class="s">Unlimited words, for free.</div>
+<div class="grain"></div>
+</div>
+<script>const p=document.getElementById("p");for(let i=0;i<24;i++){const b=document.createElement("i");b.style.height=(8+46*Math.abs(Math.sin(2.4*6+i*.7)))+"px";p.append(b)}</script>
+</body></html>

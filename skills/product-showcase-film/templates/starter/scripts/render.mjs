@@ -2,12 +2,14 @@
 /**
  * Deterministic frame renderer: Vite (in-process) → headless Chromium → ffmpeg stdin.
  *
+ *   node scripts/render.mjs --theme cursor                 # → out/cursor-1080p.mp4 at the preset's fps
+ *   VITE_THEME=vercel node scripts/render.mjs              # same switch via env
  *   node scripts/render.mjs --fps 60 --scale 1 --out out/film-1080p.mp4
  *   node scripts/render.mjs --scale 2 --out out/film-4k.mp4            # 3840x2160
  *   node scripts/render.mjs --from 3 --dur 2 --out out/slice.mp4        # slice
  *   node scripts/render.mjs --from 3 --dur 2 --hash out/a.txt --no-video --order shuffle
  *
- * Flags: --fps N (60) --scale 1|2 (1) --out file.mp4 --from s (0) --dur s (to end)
+ * Flags: --theme id (VITE_THEME | opencode) --fps N (preset frame.fps) --scale 1|2 (1) --out file.mp4 --from s (0) --dur s (to end)
  *        --format jpeg|png (jpeg) --quality 0-100 (94) --crf N (16 @1080, 18 @4K)
  *        --workers N (2) --order seq|shuffle (seq) --hash file --no-video --audio mix.wav
  */
@@ -27,9 +29,10 @@ const flag = (name, def) => {
   const v = argv[i + 1];
   return v === undefined || v.startsWith("--") ? true : v;
 };
-const fps = Number(flag("fps", 60));
+const theme = String(flag("theme", process.env.VITE_THEME || "opencode"));
+const fpsArg = flag("fps", null);
 const scale = Number(flag("scale", 1));
-const out = path.resolve(root, String(flag("out", `out/film-${scale === 2 ? "4k" : "1080p"}.mp4`)));
+const out = path.resolve(root, String(flag("out", `out/${theme}-${scale === 2 ? "4k" : "1080p"}.mp4`)));
 const from = Number(flag("from", 0));
 const durArg = flag("dur", null);
 const format = String(flag("format", "jpeg"));
@@ -44,14 +47,31 @@ const audio = flag("audio", null);
 const t0 = Date.now();
 const server = await createServer({ root, logLevel: "error", server: { port: 0, strictPort: false } });
 await server.listen();
-const url = `${server.resolvedUrls.local[0]}?render=1`;
+const url = `${server.resolvedUrls.local[0]}?render=1&theme=${encodeURIComponent(theme)}`;
 
 const browser = await chromium.launch({
-  args: ["--force-color-profile=srgb", "--disable-lcd-text", "--font-render-hinting=none", "--hide-scrollbars"],
+  // --disable-partial-raster / --disable-low-res-tiling: Chrome otherwise reuses
+  // partial rasters of tilted 3D layers, making pixels depend on frame order.
+  args: ["--force-color-profile=srgb", "--disable-lcd-text", "--font-render-hinting=none", "--hide-scrollbars", "--disable-partial-raster", "--disable-low-res-tiling"],
 });
 
+// frame size comes from the preset (social-reel is 1080×1920): probe once, then size every worker
+async function probe() {
+  const page = await browser.newPage();
+  page.on("pageerror", (e) => console.error("[page]", e.message));
+  await page.goto(url, { waitUntil: "load" });
+  await page.evaluate(() => window.__ready);
+  const r = await page.evaluate(() => ({ w: window.__width, h: window.__height, fps: window.__fps }));
+  await page.close();
+  return r;
+}
+const size = await probe();
+const W = size.w;
+const H = size.h;
+const fps = fpsArg == null ? size.fps : Number(fpsArg);
+
 async function openPage() {
-  const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: scale });
+  const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: scale });
   const page = await ctx.newPage();
   page.on("pageerror", (e) => console.error("[page]", e.message));
   await page.goto(url, { waitUntil: "load" });
@@ -116,7 +136,7 @@ async function capture({ page, cdp }, frame) {
     captureBeyondViewport: false,
     // Raw CDP ignores Playwright's deviceScaleFactor and returns CSS-pixel size (1920×1080 at
     // --scale 2). clip.scale makes it return device pixels; verified pixel-identical to page.screenshot().
-    clip: { x: 0, y: 0, width: 1920, height: 1080, scale },
+    clip: { x: 0, y: 0, width: W, height: H, scale },
   });
   return Buffer.from(data, "base64");
 }
@@ -160,5 +180,5 @@ await browser.close();
 await server.close();
 const secs = (Date.now() - t0) / 1000;
 console.log(
-  JSON.stringify({ out: ff ? out : null, frames: count, fps, scale, size: `${1920 * scale}x${1080 * scale}`, from, dur: count / fps, order, workers, wallSec: Number(secs.toFixed(1)) }),
+  JSON.stringify({ out: ff ? out : null, theme, frames: count, fps, scale, size: `${W * scale}x${H * scale}`, from, dur: count / fps, order, workers, wallSec: Number(secs.toFixed(1)) }),
 );
