@@ -50,6 +50,8 @@ Inside the skill the starter reads `../../themes` directly; the `@themes` alias 
 | 4K | `npm run render:4k -- --theme <id>` | Same page at `deviceScaleFactor 2` → 3840×2160. Not a re-layout. ~625s wall for opencode's 19.9s at `--workers 3`. |
 | Slice | `node scripts/render.mjs --theme <id> --from 8 --dur 2 --out out/slice.mp4` | Fast iteration on one beat. |
 | Stills | `node scripts/stills.mjs --theme <id> 0.3 3 8.5 [--scale 2] [--dir out/stills/<id>]` | PNGs for look-dev. Look at them. |
+| Framing probe | `node scripts/probe-framing.mjs [--theme id] [--t 1.5]` | page→screen ratio incl. ancestor scales → `out/probe/<theme>.json`. Run before crop loops. |
+| QA contact sheet | `node scripts/qa-contact.mjs 0.3 3 5.4 --theme id` | One tiled PNG for review; do not open frames one-by-one. |
 | Determinism | `npm run check:determinism -- --theme <id>` | Renders 3–5s twice: once in order, once in a shuffled (seeded) order. Compares per-frame sha256 of lossless PNG captures. Exit 1 on mismatch. Use `--from 0 --dur end` for the whole film (later flags override the script defaults). |
 | Cues | `npm run cues -- --theme <id>` | → `out/cues-<id>.json`, plus `out/mix-<id>.sh` when `sfx/*.wav` exist. |
 | Themes check | `npm run check:themes` | Exit 1 if a vendored `./themes` drifted from `../../themes`. |
